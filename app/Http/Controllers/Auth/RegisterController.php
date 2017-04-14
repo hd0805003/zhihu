@@ -9,7 +9,7 @@ use App\Events\UserRegistered;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
-// use Naux\Mail\SendCloudTemplate;
+use Naux\Mail\SendCloudTemplate;
 class RegisterController extends Controller
 {
     /*
@@ -72,21 +72,21 @@ class RegisterController extends Controller
             'confirmation_token' => str_random(40),
             'password' => bcrypt($data['password']),
         ]);
-        event(new UserRegistered($user));
-        // $this->sendVerifyEmailto($user);
+        // event(new UserRegistered($user));
+        $this->sendVerifyEmailto($user);
         return $user;
     }
 
-    // private function sendVerifyEmailto($user){
-    //     $bind_data = [
-    //         'url' => route('email.verify',['token'=>$user->confirmation_token]),
-    //         'name'=>$user->name
-    //         ];
-    //     $template = new SendCloudTemplate('zhihu_register', $bind_data);
-    //     Mail::raw($template, function ($message) {
-    //         $message->from('784761017@qq.com', 'zhihu-app');
-    //         $message->to($user->email);
-    //     });
-    // }
+    private function sendVerifyEmailto($user){
+        $bind_data = [
+            'url' => route('email.verify',['token'=>$user->confirmation_token]),
+            'name'=>$user->name
+            ];
+        $template = new SendCloudTemplate('zhihu_register', $bind_data);
+        Mail::raw($template, function ($message) use ($user){
+            $message->from('784761017@qq.com', 'zhihu-app');
+            $message->to($user->email);
+        });
+    }
 
 }

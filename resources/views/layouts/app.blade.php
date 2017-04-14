@@ -53,6 +53,9 @@
                             <li><a href="{{ route('login') }}">登录</a></li>
                             <li><a href="{{ route('register') }}">注册</a></li>
                         @else
+                            <li><a href="{{ route('question.create') }}">
+                                            提问
+                                        </a></li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                     {{ Auth::user()->name }} <span class="caret"></span>
@@ -63,7 +66,7 @@
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                            
+                                            退出
                                         </a>
 
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -77,10 +80,18 @@
                 </div>
             </div>
         </nav>
+<div class="container">
+    @if (session()->has('flash_notification.message'))
+    <div class="alert alert-{{ session('flash_notification.level') }}">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 
+        {!! session('flash_notification.message') !!}
+    </div>
+    @endif
+    </div>
         @yield('content')
     </div>
-
+    
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
 </body>

@@ -177,7 +177,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         // sendcloud
-        // Naux\Mail\SendCloudServiceProvider::class,
+        Naux\Mail\SendCloudServiceProvider::class,
+        //flash
+        Laracasts\Flash\FlashServiceProvider::class,
         
     ],
 
